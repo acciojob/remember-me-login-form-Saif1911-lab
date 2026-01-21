@@ -1,7 +1,9 @@
 const form = document.getElementById("login-form");
-const existingBtn = document.getElementById("existing-user");
+const existingBtn = document.getElementById("existing");
 
-if (localStorage.getItem("user")) {
+// Show existing user button if credentials exist
+const savedUser = localStorage.getItem("user");
+if (savedUser) {
   existingBtn.style.display = "block";
 }
 
@@ -11,6 +13,8 @@ form.addEventListener("submit", function (e) {
   const username = form.username.value;
   const password = form.password.value;
   const rememberMe = form.checkbox.checked;
+
+  alert(`Logged in as ${username}`);
 
   if (rememberMe) {
     localStorage.setItem(
@@ -23,18 +27,12 @@ form.addEventListener("submit", function (e) {
     existingBtn.style.display = "none";
   }
 
-  alert(`Logged in as ${username}`);
   form.reset();
 });
 
 existingBtn.addEventListener("click", function () {
   const user = JSON.parse(localStorage.getItem("user"));
-
   if (!user) return;
-
-  document.getElementById("username").value = user.username;
-  document.getElementById("password").value = user.password;
-  document.getElementById("checkbox").checked = true;
 
   alert(`Logged in as ${user.username}`);
 });
